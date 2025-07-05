@@ -13,15 +13,15 @@ app.post('/shorturls', (req, res) => {
   const generatedShortcode = shortcode || 'abcd123';
   const baseUrl = 'https://localhost:6000';
 
-  const expiryDate = new Date(Date.now() + (validity || 30) * 60000); 
+  const expiryDate = "05/07/2025"; 
 
   return res.status(201).json({
     shortLink: `${baseUrl}/${generatedShortcode}`,
-    expiry: expiryDate.toISOString()
+    expiry: expiryDate
   });
 });
 
-app.post('/api/shorturl', async (req, res) => {
+app.post('/api/shorturls', async (req, res) => {
   const { url, validity, shortcode } = req.body;
 
   if (!url) {
