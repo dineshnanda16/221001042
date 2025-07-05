@@ -1,21 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-require('dotenv').config();
-
-const PORT = 3000;
+const PORT = 5000;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.post('/api/logs', async (req, res) => {
-  // Use req.body instead of req.query
   const { stack, level, package: packageName, message } = req.body;
-  
+
   if (!stack || !level || !packageName || !message) {
     return res.status(400).json({ error: 'Missing stack, level, package, or message' });
   }
+
+  console.log('Using token:', process.env.access_token); // Should print the token
 
   try {
     const response = await axios.post(
@@ -36,7 +36,7 @@ app.post('/api/logs', async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error('API call failed:', error.response?.data || error.message);
-    res.status(500).json({ error: 'API request failed' });
+    res.status(500).json({ error: error.response?.data || 'API request failed' });
   }
 });
 
